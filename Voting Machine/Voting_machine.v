@@ -15,19 +15,19 @@ module voting_machine (
     input i_candidate_3,				// input to vote for candidate 3
     input i_voting_over,				// input high to get total votes after voting is over
 
-    output reg [5:0] o_count1,			// output for total number of votes of candidate 1
-    output reg [5:0] o_count2,			// output for total number of votes of candidate 2
-    output reg [5:0] o_count3			// output for total number of votes of candidate 3
+    output reg [31:0] o_count1,			// output for total number of votes of candidate 1
+    output reg [31:0] o_count2,			// output for total number of votes of candidate 2
+    output reg [31:0] o_count3			// output for total number of votes of candidate 3
 
 );	  
 
-reg [5:0] r_cand1_prev;					// store previous value of input for candidate 1
-reg [5:0] r_cand2_prev;					// store previous value of input for candidate 2
-reg [5:0] r_cand3_prev;					// store previous value of input for candidate 3
+reg [31:0] r_cand1_prev;					// store previous value of input for candidate 1
+reg [31:0] r_cand2_prev;					// store previous value of input for candidate 2
+reg [31:0] r_cand3_prev;					// store previous value of input for candidate 3
 
-reg [5:0] r_party1;						// counting register for candidate 1
-reg [5:0] r_party2;						// counting register for candidate 2
-reg [5:0] r_party3;						// counting register for candidate 3
+reg [31:0] r_party1;						// counting register for candidate 1
+reg [31:0] r_party2;						// counting register for candidate 2
+reg [31:0] r_party3;						// counting register for candidate 3
 
 reg r_present_state, r_next_state;		// present state and next state registers
 reg [1:0] r_state_no;					// store state number
@@ -45,9 +45,9 @@ begin
         idle: if (rst == 1'b1)												// idle state operations
 				begin
 					r_present_state = idle;									// present state at the beginning
-					r_party1 = 6'b0;										// clear counting registers
-	              	r_party2 = 6'b0;
-	              	r_party3 = 6'b0;
+					r_party1 = 32'b0;										// clear counting registers
+	              	r_party2 = 32'b0;
+	              	r_party3 = 32'b0;
 				
 					r_next_state = idle;									// assign next state as idle till reset not low
 					r_state_no = 2'b0;
@@ -121,9 +121,9 @@ begin
 				
         default: 
 			begin 
-				r_party1 = 6'b0;											// default values for resgisters
-				r_party2 = 6'b0;
-				r_party3 = 6'b0;
+				r_party1 = 32'b0;											// default values for resgisters
+				r_party2 = 32'b0;
+				r_party3 = 32'b0;
 				
 				r_next_state = idle;										// by default go to idle state at the begining
 				r_state_no = 2'b0;
@@ -139,9 +139,9 @@ begin
         begin
 		    r_present_state = idle;											// remain in idle state when reset is high
 												
-			 o_count1 = 6'b0; 												// reset final output count  
-			 o_count2 = 6'b0;
-			 o_count3 = 6'b0;
+			 o_count1 = 32'b0; 												// reset final output count  
+			 o_count2 = 32'b0;
+			 o_count3 = 32'b0;
 		end
 		
 	else if (i_voting_over == 1)											// if voting process is i.e.over is high
@@ -159,7 +159,7 @@ begin
 			r_cand3_prev = i_candidate_3;
 		
 		end 
-			 
+	
 end	
 
 endmodule

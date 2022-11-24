@@ -4,11 +4,12 @@
 // Date created: 30-11-2020
 // Compiler: iverilog v11 
 // Description: Design of testbench for Voting machine with 3 candidate choices .
+//version: 2 = added more stimulus and comments
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-`include "Voting_machine_final.v"              // `include => *only applicable for iverilog simulation, remove this line while using other simulators
+//`include "Voting_machine_final.v"              // `include => *only applicable for iverilog simulation, remove this line while using other simulators
 `timescale 1ns/1ns                             // 1 time unit = 1 ns
 
 module tb_voting_machine ();
@@ -76,13 +77,20 @@ begin
 
     #20 t_candidate_2 = 1'b1;
     #10 t_candidate_2 = 1'b0;
-
-
-    #10 t_vote_over = 1'b1;
-
-    #50 t_rst = 1'b1;                       //reset when the voting process is over 
     
-    #60 $stop;                      // use $stop instead of $finish to keep simulator open 
+    #20 t_candidate_1 = 1'b1;
+    #10 t_candidate_1 = 1'b0;
+    
+    #20 t_candidate_3 = 1'b1;               //when button for candidate 3 is pressed
+    #10 t_candidate_3 = 1'b0;               //button  for candidate 3 is released
+
+
+    #30 t_vote_over = 1'b1;
+
+    #50 t_rst = 1'b1;                                    //reset when the voting process is over 
+    
+    //use $finish for simulators other than modelsim
+    #60 $stop;                                          // use $stop instead of $finish to keep modelsim simulator open 
 end
 
 //.vcd file for gtk wave plot
